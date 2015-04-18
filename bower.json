@@ -1,0 +1,23 @@
+{
+	"name": "jLogg",
+	"version": "0.1.0",
+	"homepage": "http://demo.danielmunnoz.com/jLogg",
+	"authors": [
+		"Daniel Muñoz <munnozdaniel@gmail.com>"
+	],
+	"description": "A simple jQuery Plugin that allow you to log-in into your web app using the Facebook Javascript SDK.",
+	"main": "src/jquery.boilerplate.js",
+	"keywords": [
+		"jquery",
+		"plugin",
+		"boilerplate",
+		"jquery-plugin",
+		"jquery-boilerplate",
+		"facebook",
+		"authentication",
+		"login",
+		"facebook-js",
+		"facebook-sdk"
+	],
+	"license": "MIT"
+}
