@@ -81,7 +81,7 @@
                         self.settings.success();
                         self.yay(response);
                     }
-                }, scope: "public_profile, email");
+                }, {scope: "public_profile, email"});
             },
 
             askStatus: function () {
@@ -100,12 +100,12 @@
 
             statusChangeCallback: function (response) {
                 console.log(response);
-                if (response.status === 'connected') {
+                if (response.status === "connected") {
                     console.log("Yay!");
                     // call the function afterLogin();
                     // self.settings.success();
                     self.yay(response);
-                } else if (response.status === 'not_authorized') {
+                } else if (response.status === "not_authorized") {
                     // Throw an error();
                     // console.error("NOPE!");
                     self.settings.error();
