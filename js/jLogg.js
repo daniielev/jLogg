@@ -54,18 +54,25 @@
                     return false;
                 }
 
+                // if (this.setFacebookSDK()) {
+                //     console.log("Conection has been stablished... Waiting...");
+                //     $(this.element).append("")
+                // }
+
                 $(this.settings.class).each(function () {
                     $(self.element).addClass(this);
                 });
 
                 // Set the event trigger for the element
-                $(this.element).on(this.settings.mouseEvent, this.askStatus);
+                $(this.element).on(this.settings.mouseEvent, this.login);
             },
 
             // Calls the <script> with the
             // requested parameters from Facebook.
             // See: https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.3
             setFacebookSDK: function () {
+                // var conx = false;
+
                 window.fbAsyncInit = function() {
                     FB.init({
                     appId      : self.settings.appId,
@@ -83,19 +90,21 @@
                 }(document, "script", "facebook-jssdk"));
             }, // setFBSDK
 
-            setLogin: function () {
+            login: function (e) {
+                e = event || window.event;
+                e.preventDefault();
+
                 FB.login(function (response) {
                     if (response.status === "connected") {
-                        self.settings.success();
                         self.yay(response);
                     }
                 }, {scope: "public_profile, email"});
-            },
 
-            askStatus: function () {
                 FB.getLoginStatus(function(response) {
                     statusChangeCallback(response);
                 });
+
+                return false;
             },
 
             yay: function () {
@@ -106,23 +115,18 @@
                 });
             },
 
-            statusChangeCallback: function (response) {
-                console.log(response);
-                if (response.status === "connected") {
-                    console.log("Yay!");
-                    // call the function afterLogin();
-                    // self.settings.success();
-                    self.yay(response);
-                } else if (response.status === "not_authorized") {
-                    // Throw an error();
-                    // console.error("NOPE!");
-                    self.settings.error();
-                } else {
-                    // Please log into Facebook to continue.
-                    console.warn("You must be logged into Facebook!");
-                }
-            }
         });
+
+        function statusChangeCallback (response) {
+            console.log(response);
+            if (response.status === "connected") {
+                self.yay();
+            } else if (response.status === "not_authorized") {
+                self.settings.error();
+            } else {
+                console.warn("You must be logged into Facebook!");
+            }
+        }
 
         $.fn[ pluginName ] = function ( options ) {
             return this.each(function() {
