@@ -52,13 +52,13 @@ module.exports = function(grunt) {
 					banner: "<%= meta.banner %>"
 				}
 			},
-			my_target_2: {
-				src: ["js/main.js"],
-				dest: "js/main.min.js",
-				options: {
-					banner: "<%= meta.banner_2 %>"
-				}
-			},
+			// my_target_2: {
+			// 	src: ["js/main.js"],
+			// 	dest: "js/main.min.js",
+			// 	options: {
+			// 		banner: "<%= meta.banner_2 %>"
+			// 	}
+			// },
 		},
 
 		// CoffeeScript compilation
@@ -94,7 +94,13 @@ module.exports = function(grunt) {
 					"css/style.min.css" : "src/scss/style.scss"
 				}
 			}
-		}
+		},
+
+		// serve: {
+	 //        options: {
+	 //            port: 9000
+	 //        }
+	 //    }
 
 	});
 
@@ -104,6 +110,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-coffee");
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-contrib-sass");
+	// grunt.loadNpmTasks("grunt-serve");
 
 	grunt.registerTask("build", ["concat", "uglify"]);
 	grunt.registerTask("default", ["jshint", "build", "watch"]);

@@ -1,64 +1,127 @@
-// the semi-colon before function invocation is a safety net against concatenated
-// scripts and/or other plugins which may not be closed properly.
 ;(function ( $, window, document, undefined ) {
 
-	"use strict";
+    "use strict";
 
-		// undefined is used here as the undefined global variable in ECMAScript 3 is
-		// mutable (ie. it can be changed by someone else). undefined isn't really being
-		// passed in so we can ensure the value of it is truly undefined. In ES5, undefined
-		// can no longer be modified.
+        var pluginName = "jLogg",
+            defaults = {
+            appId: "1046016745413247",
+            class: ["btn-fb-login", "btn-fb"],
+            mouseEvent: "click",
+            result: "",
+            success: function () {
+                alert("Woohoo! You have been sucessfully login into Facebook using jLogg");
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        };
 
-		// window and document are passed through as local variable rather than global
-		// as this (slightly) quickens the resolution process and can be more efficiently
-		// minified (especially when both are regularly referenced in your plugin).
+        var self;
 
-		// Create the defaults once
-		var pluginName = "jLogg",
-				defaults = {
-				appID: "123"
-		};
+        function Plugin ( element, options ) {
+            this.element = element;
+            this.settings = $.extend( {}, defaults, options );
+            this._defaults = defaults;
+            this._options = options;
+            this._name = pluginName;
+            self = this;
+            this.init();
+        }
 
-		var self;
+        // Avoid Plugin.prototype conflicts
+        $.extend(Plugin.prototype, {
+            init: function () {
+                var elemName = this.element.nodeName;
 
-		// The actual plugin constructor
-		function Plugin ( element, options ) {
-				this.element = element;
-				// jQuery has an extend method which merges the contents of two or
-				// more objects, storing the result in the first object. The first object
-				// is generally empty as we don't want to alter the default options for
-				// future instances of the plugin
-				this.settings = $.extend( {}, defaults, options );
-				this._defaults = defaults;
-				this._name = pluginName;
-				this.init();
-				self = this;
-		}
+                if (elemName === "BUTTON" || elemName === "INPUT" || elemName === "IMG") {
+                    if (elemName === "BUTTON" || elemName === "INPUT") {
+                        // Make sure that the client sets
+                        // the element type as submit properly.
+                        // (ie. You forget to declare the input/button type attribute as submit);
+                        $(this.element).attr("type", "submit");
+                    }
+                    this.setFacebookSDK();
+                } else {
+                    console.error("Nope! This plugin only works with INPUT, BUTTON or IMG elements. You're using the: " + elemName + " element.");
+                    return false;
+                }
 
-		// Avoid Plugin.prototype conflicts
-		$.extend(Plugin.prototype, {
-				init: function () {
-						// Place initialization logic here
-						// You already have access to the DOM element and
-						// the options via the instance, e.g. this.element
-						// and this.settings
-						// you can add more functions like the one below and
-						// call them like so: this.yourOtherFunction(this.element, this.settings).
-						console.log("xD");
-				},
-				yourOtherFunction: function () {
-						// some logic
-				}
-		});
+                $(this.settings.class).each(function () {
+                    $(self.element).addClass(this);
+                });
 
-		// A really lightweight plugin wrapper around the constructor,
-		// preventing against multiple instantiations
-		$.fn[ pluginName ] = function ( options ) {
-				return this.each(function() {
-						if ( !$.data( this, "plugin_" + pluginName ) ) {
-								$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
-						}
-				});
-		};
+                // Set the event trigger for the element
+                $(this.element).on(this.settings.mouseEvent, this.askStatus);
+            },
+
+            // Calls the <script> with the
+            // requested parameters from Facebook.
+            // See: https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.3
+            setFacebookSDK: function () {
+                window.fbAsyncInit = function() {
+                    FB.init({
+                    appId      : self.settings.appId,
+                    xfbml      : true,
+                    version    : "v2.3"
+                    });
+                };
+
+                (function(d, s, id){
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {return;}
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, "script", "facebook-jssdk"));
+            }, // setFBSDK
+
+            setLogin: function () {
+                FB.login(function (response) {
+                    if (response.status === "connected") {
+                        self.settings.success();
+                        self.yay(response);
+                    }
+                }, scope: "public_profile, email");
+            },
+
+            askStatus: function () {
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            },
+
+            yay: function () {
+                FB.api("/me", function (response) {
+                    $(self.settings.result).append("<p>"+response.first_name+"</p>");
+                    $(self.settings.result).append("<p>"+response.last_name+"</p>");
+                    $(self.settings.result).append("<p>"+response.email+"</p>");
+                });
+            },
+
+            statusChangeCallback: function (response) {
+                console.log(response);
+                if (response.status === 'connected') {
+                    console.log("Yay!");
+                    // call the function afterLogin();
+                    // self.settings.success();
+                    self.yay(response);
+                } else if (response.status === 'not_authorized') {
+                    // Throw an error();
+                    // console.error("NOPE!");
+                    self.settings.error();
+                } else {
+                    // Please log into Facebook to continue.
+                    console.warn("You must be logged into Facebook!");
+                }
+            }
+        });
+
+        $.fn[ pluginName ] = function ( options ) {
+            return this.each(function() {
+                if ( !$.data( this, "plugin_" + pluginName ) ) {
+                    $.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+                }
+            });
+        };
 
 })( jQuery, window, document );

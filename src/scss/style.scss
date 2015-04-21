@@ -1,1 +1,22 @@
 @import "partials/typos";
+@import "partials/variables";
+@import "partials/base";
+
+pre {
+    background-color: #282828;
+    color: #DDD;
+}
+
+span {
+    &.w2r {
+        color: #F18260;
+    }
+
+    &.w2g {
+        color: #b4d388;
+    }
+
+    &.w2b {
+        color: #92bfbf;
+    }
+}

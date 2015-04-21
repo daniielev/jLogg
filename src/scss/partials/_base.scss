@@ -1,0 +1,14 @@
+.dashed-bottom {
+    position: relative;
+}
+
+.dashed-bottom::before {
+    content: "";
+    position: absolute;
+    top:-4px;
+    left:0;
+    right:0;
+    border-width:2px;
+    border-style:dashed;
+    border-color:#606169
+}

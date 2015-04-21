@@ -1,2 +1,2 @@
-body{font-family:"Arial", sans-serif}
+body{font-family:"Arial", sans-serif}.dashed-bottom{position:relative}.dashed-bottom::before{content:"";position:absolute;top:-4px;left:0;right:0;border-width:2px;border-style:dashed;border-color:#606169}pre{background-color:#282828;color:#DDD}span.w2r{color:#F18260}span.w2g{color:#b4d388}span.w2b{color:#92bfbf}
 /*# sourceMappingURL=style.min.css.map */
