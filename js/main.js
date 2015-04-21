@@ -1,11 +1,10 @@
 $("#btn-facebook").jLogg({
-    appId      : "1046016745413247",
-    mouseEvent : "click",
-    result     : "#result",
-    success    : function () {
-        alert("Woohoo!");
+    appId         : "1046016745413247",
+    button        : "facebook",
+    success       : function (fbAPI) {
+        // Code on login successful;
     },
-    error      : function () {
-        alert("No way!");
+    error         : function (response) {
+        // Code on failed login;
     }
 });

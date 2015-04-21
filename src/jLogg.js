@@ -4,16 +4,10 @@
 
         var pluginName = "jLogg",
             defaults = {
-            appId: "1046016745413247",
-            class: ["btn-fb-login", "btn-fb"],
-            mouseEvent: "click",
-            result: "",
-            success: function () {
-                alert("Woohoo! You have been sucessfully login into Facebook using jLogg");
-            },
-            error: function () {
-                alert("Error :(");
-            }
+            appId: "",
+            button: "facebook",
+            success: function () {},
+            error: function () {}
         };
 
         var self;
@@ -95,8 +89,6 @@
                 FB.getLoginStatus(function(response) {
                     statusChangeCallback(response);
                 });
-
-                return false;
             },
 
             yay: function () {

@@ -52,13 +52,13 @@ module.exports = function(grunt) {
 					banner: "<%= meta.banner %>"
 				}
 			},
-			// my_target_2: {
-			// 	src: ["js/main.js"],
-			// 	dest: "js/main.min.js",
-			// 	options: {
-			// 		banner: "<%= meta.banner_2 %>"
-			// 	}
-			// },
+			my_target_2: {
+				src: ["js/main.js"],
+				dest: "js/main.min.js",
+				options: {
+					banner: "<%= meta.banner_2 %>"
+				}
+			},
 		},
 
 		// CoffeeScript compilation
