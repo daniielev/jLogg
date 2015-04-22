@@ -15,11 +15,10 @@
             defaults = {
                 appId         : "1046016745413247",
                 defaultButton : false,
-                permissions   : "public_profile, email",
                 button        : {
-                    "size" : "medium",
-                    "logout_link" : "true"
+                    size  : "medium"
                 },
+                permissions   : "public_profile, email",
                 onLogin       : function () {},
                 onLogout      : function () {}
             };
@@ -39,6 +38,8 @@
         // Avoid Plugin.prototype conflicts
         $.extend(Plugin.prototype, {
             init: function () {
+                this.setFacebookSDK();
+
                 if (!this.settings.defaultButton) {
                     this.settings.button = $(this.element).find("[data-action='facebook-login']")[0];
                     $(this.settings.button).on("click", self.login);
@@ -52,17 +53,11 @@
 
                     // Sets the default facebook login button.
                     var container = $(this.element).find("[data-contains='facebook-button']")[0],
-                        btn = $("<div class='fb-login-button'></div>");
-
-                        $.each(self.settings.button, function (i, val) {
-                            // console.log(i, val);
-                            btn.attr("data-" + i, val);
-                        });
+                        btn = $("<div class='fb-login-button' data-auto-logout-link='true' data-size='"+ this.settings.button.size +"' data-scope='"+ this.settings.permissions +"' onlogin='"+ checkLoginState() +"'></div>");
 
                         $(container).append(btn);
                 }
 
-                this.setFacebookSDK();
             },
 
             // Calls the <script> with the
@@ -71,9 +66,9 @@
             setFacebookSDK: function () {
                 window.fbAsyncInit = function() {
                     FB.init({
-                    appId      : self.settings.appId,
-                    xfbml      : true,
-                    version    : "v2.3"
+                        appId   : self.settings.appId,
+                        xfbml   : true,
+                        version : "v2.3"
                     });
                 };
 
@@ -107,7 +102,9 @@
                         if (self.settings.defaultButton === false) {
                             var btnLogout = $("<button type='button' id='btn-facebook-logout' data-action='facebook-logout' class='btn btn-primary'>Logout</button>");
                             btnLogout.on("click", self.logout);
-                            $(self.element).append(btnLogout);
+                            if (!$(self.element).find("#btn-facebook-logout")[0]) {
+                                $(self.element).append(btnLogout);
+                            }
                         }
 
                         self.success(response);
@@ -141,7 +138,7 @@
         // trigger when a login status check
         // needs to be perform.
         function statusChangeCallback (response) {
-            console.log(response);
+            // console.log(response);
             if (response.status === "connected") {
                 if (!localStorage.getItem("jLoggSessionToken")) {
                     self.success();
@@ -149,6 +146,12 @@
             } else if (response.status === "not_authorized") {
                 console.error("You are not logged into the app, please login to continue!");
             }
+        }
+
+        function checkLoginState () {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
         }
 
         $.fn[ pluginName ] = function ( options ) {
