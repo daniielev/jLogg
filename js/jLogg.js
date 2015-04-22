@@ -65,8 +65,6 @@
             // requested parameters from Facebook.
             // See: https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.3
             setFacebookSDK: function () {
-                // var conx = false;
-
                 window.fbAsyncInit = function() {
                     FB.init({
                     appId      : self.settings.appId,
@@ -82,6 +80,8 @@
                     js.src = "//connect.facebook.net/en_US/sdk.js";
                     fjs.parentNode.insertBefore(js, fjs);
                 }(document, "script", "facebook-jssdk"));
+
+                // return true;
             }, // setFBSDK
 
             login: function (e) {

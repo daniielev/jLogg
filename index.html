@@ -104,87 +104,69 @@
           -->
           <div class="tab-pane" id="examples">
           <h2 class="font-bree-serif">Usage</h2>
-            <p>These examples asumes that you're using Twitter's Bootstrap.</p>
+            <p>We show you how simple it is to use jLogg in your web applications. Here are some examples.</p>
             <div class="row">
              <div class="span6">
-                <form id="example-1-form" class="form-horizontal">
+                <form id="form-login" class="form-horizontal">
                     <fieldset>
                     <legend>Login</legend>
                     <div class="form-group">
                       <label class="col-md-4 control-label" for="username">Username</label>
-                      <div class="col-md-5">
                       <input id="username" name="username" type="text" class="form-control input-md" required>
-                      </div>
                     </div>
                     <div class="form-group">
                       <label class="col-md-4 control-label" for="password">Password</label>
-                      <div class="col-md-5">
                       <input id="password" name="password" type="password" class="form-control input-md" required>
-                      </div>
                     </div>
                     <div class="form-group">
                       <label class="col-md-4 control-label" for="btnlogin"></label>
-                      <div class="col-md-8">
-                        <button id="btn_login" class="btn btn-primary">Sign in</button>
-                        <button id="btn_facebook" class="btn btn-primary">Sign in with Facebook</button>
-                      </div>
+                        <button id="btn-login" class="btn btn-primary">Sign in</button>
+                        <button id="btn-facebook" data-action="facebook-login" class="btn btn-primary">Sign in with Facebook</button>
+                        <div data-contains="facebook-button"></div>
                     </div>
                     </fieldset>
-                    </form>
+                  </form>
 
+                  <div class="alert alert-info alert-dismissible hidden" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4>Welcome Back!</h4>
+                      <div id="resutl"></div>
+                  </div>
               </div>
               <!--end span6-->
               <div class="span6">
                 <section class="sec-header">
                 <h3 class="font-bree-serif">The Markup</h3>
-<pre class="prettyprint linenums">
-&lt;form id="example-1-form" class="form-horizontal"&gt;
-    &lt;fieldset&gt;
-        &lt;legend&gt;Login&lt;/legend&gt;
-        &lt;div class="form-group"&gt;
-            &lt;label class="col-md-4 control-label" for="username"&gt;Username&lt;/label&gt;
-            &lt;div class="col-md-5"&gt;
-                &lt;input id="username" name="username" type="text" class="form-control input-md" required&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class="form-group"&gt;
-            &lt;label class="col-md-4 control-label" for="password"&gt;Password&lt;/label&gt;
-            &lt;div class="col-md-5"&gt;
-                &lt;input id="password" name="password" type="password" class="form-control input-md" required&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class="form-group"&gt;
-            &lt;label class="col-md-4 control-label" for="btnlogin"&gt;&lt;/label&gt;
-            &lt;div class="col-md-8"&gt;
-                &lt;button id="btn-login" class="btn btn-primary"&gt;Sign in&lt;/button&gt;
+                <p>Define you form container</p>
+                <pre class="prettyprint linenums">
+                &lt;form id="form-login" class="form-horizontal"&gt;
                 &lt;button id="btn-facebook" class="btn btn-primary"&gt;Sign in with Facebook&lt;/button&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/fieldset&gt;
-&lt;/form&gt;
-</pre>
+                </pre>
+                <p>Define your custom login button</p>
+                <pre class="prettyprint linenums">
+                  &lt;button id="btn-facebook" class="btn btn-primary" data-action="facebook-login"&gt;Sign in with Facebook&lt;/button&gt;
+                </pre>
             </section>
             <section class="sec-header">
             <h3 class="font-bree-serif">JavaScript</h3>
             <p>Initialize the plugin.</p>
 <pre class="prettyprint linenums">
-$("#btn_facebook").jLogg();
+$("#btn-facebook").jLogg();
 </pre>
               </section>
               <section class="sec-header">
             <p>Define the options</p>
 <pre class="prettyprint linenums">
-$("#btn-facebook").jLogg({
+$("#form-login").jLogg({
     appId         : "1046016745413247",
-    button        : "facebook",
-    success       : function (fbAPI) {
-        // Code on login successful;
-        var div = $("#login-result");
-
-        div.html("Welcome back, " + fbAPI.first_name + ".");
+    defaultButton : false,
+    onLogin       : function (api) {
+        // console.log(api);
+        alert("Welcome, " + api.first_name + ".");
     },
-    error         : function (response) {
-        // Code on failed login;
+    onLogout      : function (response) {
+        // console.log(response);
+        alert("Come back soon, " + api.first_name + ".");
     }
 });
 </pre>
@@ -536,37 +518,7 @@ $(document).ready(function () {
 <script src="assets/js/jquery.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/google-code-prettify/prettify.js"></script>
-<script type="text/javascript" src="assets/js/respond.js"></script>
-<script type="text/javascript">
-$(function(){
-    $("a[href='#']").click(function (e) {
-        e.preventDefault();
-        return false;
-    });
-
-    //Load Goodle Code Pretiffy
-    window.prettyPrint && prettyPrint();
-    //Tab function
-    $('#pluginTab a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-    //FAQ autosuggest
-    $('.typeahead').typeahead();
-    //tooltip init
-    $("a.tip").tooltip();
-    //footer link to got top
-    gotoTop();
-    function gotoTop(){
-         // scroll body to 0px on click
-            $('a#top').on('click',function () {
-                $('body,html').animate({
-                    scrollTop: 0
-                }, 800);
-                return false;
-            });
-     };
-});
-</script>
+<script src="src/jLogg.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

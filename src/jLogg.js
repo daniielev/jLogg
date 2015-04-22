@@ -1,17 +1,31 @@
+/*
+ *  jLogg - v0.1.0
+ *  A simple jQuery Plugin that allow you to log-in into your web app using the Facebook Javascript SDK.
+ *  http://dev.danielmunnoz.com/jLogg
+ *
+ *  Made by Daniel Muñoz
+ *  Under MIT License
+ */
 ;(function ( $, window, document, undefined ) {
 
     "use strict";
 
+        // Declare Plugin default options
         var pluginName = "jLogg",
             defaults = {
-            appId: "",
-            button: "facebook",
-            success: function () {},
-            error: function () {}
-        };
+                appId         : "1046016745413247",
+                defaultButton : false,
+                permissions   : "public_profile, email",
+                button        : {
+                    "size" : "medium",
+                    "logout_link" : "true"
+                },
+                onLogin       : function () {},
+                onLogout      : function () {}
+            };
 
+        // Plugin Constructor
         var self;
-
         function Plugin ( element, options ) {
             this.element = element;
             this.settings = $.extend( {}, defaults, options );
@@ -25,40 +39,36 @@
         // Avoid Plugin.prototype conflicts
         $.extend(Plugin.prototype, {
             init: function () {
-                var elemName = this.element.nodeName;
-
-                if (elemName === "BUTTON" || elemName === "INPUT" || elemName === "IMG") {
-                    if (elemName === "BUTTON" || elemName === "INPUT") {
-                        // Make sure that the client sets
-                        // the element type as submit properly.
-                        // (ie. You forget to declare the input/button type attribute as submit);
-                        $(this.element).attr("type", "submit");
-                    }
-                    this.setFacebookSDK();
+                if (!this.settings.defaultButton) {
+                    this.settings.button = $(this.element).find("[data-action='facebook-login']")[0];
+                    $(this.settings.button).on("click", self.login);
                 } else {
-                    console.error("Nope! This plugin only works with INPUT, BUTTON or IMG elements. You're using the: " + elemName + " element.");
-                    return false;
+                    // Removes the custom button if you already declare it.
+                    // This is because defaulButton has been set as TRUE, so
+                    // you don't need two login buttons.
+                    if ($(this.element).find("[data-action='facebook-login']")[0]) {
+                        $(this.element).find("[data-action='facebook-login']")[0].remove();
+                    }
+
+                    // Sets the default facebook login button.
+                    var container = $(this.element).find("[data-contains='facebook-button']")[0],
+                        btn = $("<div class='fb-login-button'></div>");
+
+                        $.each(self.settings.button, function (i, val) {
+                            // console.log(i, val);
+                            btn.attr("data-" + i, val);
+                        });
+
+                        $(container).append(btn);
                 }
 
-                // if (this.setFacebookSDK()) {
-                //     console.log("Conection has been stablished... Waiting...");
-                //     $(this.element).append("")
-                // }
-
-                $(this.settings.class).each(function () {
-                    $(self.element).addClass(this);
-                });
-
-                // Set the event trigger for the element
-                $(this.element).on(this.settings.mouseEvent, this.login);
+                this.setFacebookSDK();
             },
 
             // Calls the <script> with the
             // requested parameters from Facebook.
             // See: https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.3
             setFacebookSDK: function () {
-                // var conx = false;
-
                 window.fbAsyncInit = function() {
                     FB.init({
                     appId      : self.settings.appId,
@@ -74,41 +84,70 @@
                     js.src = "//connect.facebook.net/en_US/sdk.js";
                     fjs.parentNode.insertBefore(js, fjs);
                 }(document, "script", "facebook-jssdk"));
-            }, // setFBSDK
+            },
 
+            // This function is trigger when
+            // the Login Button is clicked.
             login: function (e) {
+                // In case the form has action and the
+                // custom login button is type="submit".
                 e = event || window.event;
                 e.preventDefault();
 
                 FB.login(function (response) {
                     if (response.status === "connected") {
-                        self.yay(response);
+                        // Woohoo. You are now connected.
+                        // We can save the session token in the
+                        // localStorage.
+                        localStorage.removeItem("jLoggSessionToken");
+                        localStorage.setItem("jLoggSessionToken", response.authResponse.accessToken);
+
+                        // Creates the logout button if using
+                        // your own custom btn.
+                        if (self.settings.defaultButton === false) {
+                            var btnLogout = $("<button type='button' id='btn-facebook-logout' data-action='facebook-logout' class='btn btn-primary'>Logout</button>");
+                            btnLogout.on("click", self.logout);
+                            $(self.element).append(btnLogout);
+                        }
+
+                        self.success(response);
                     }
-                }, {scope: "public_profile, email"});
+                }, {scope: self.settings.permissions});
 
                 FB.getLoginStatus(function(response) {
                     statusChangeCallback(response);
                 });
             },
 
-            yay: function () {
-                FB.api("/me", function (response) {
-                    $(self.settings.result).append("<p>"+response.first_name+"</p>");
-                    $(self.settings.result).append("<p>"+response.last_name+"</p>");
-                    $(self.settings.result).append("<p>"+response.email+"</p>");
+            // This function is called when the logout
+            // button is trigger.
+            logout : function () {
+                FB.logout(function(response) {
+                    localStorage.removeItem("jLoggSessionToken");
+                    self.settings.onLogout(response);
                 });
             },
 
+            // When login, and the FBSDK checked the accessToken,
+            // this function is called.
+            success: function () {
+                FB.api("/me", function (response) {
+                    self.settings.onLogin(response);
+                });
+            }
         });
 
+        // Public function which is
+        // trigger when a login status check
+        // needs to be perform.
         function statusChangeCallback (response) {
             console.log(response);
             if (response.status === "connected") {
-                self.yay();
+                if (!localStorage.getItem("jLoggSessionToken")) {
+                    self.success();
+                }
             } else if (response.status === "not_authorized") {
-                self.settings.error();
-            } else {
-                console.warn("You must be logged into Facebook!");
+                console.error("You are not logged into the app, please login to continue!");
             }
         }
 
