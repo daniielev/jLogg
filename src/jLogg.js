@@ -13,7 +13,7 @@
         // Declare Plugin default options
         var pluginName = "jLogg",
             defaults = {
-                appId         : "1046016745413247",
+                appId         : "",
                 defaultButton : false,
                 button        : {
                     size  : "medium"
@@ -38,26 +38,26 @@
         // Avoid Plugin.prototype conflicts
         $.extend(Plugin.prototype, {
             init: function () {
-                this.setFacebookSDK();
-
                 if (!this.settings.defaultButton) {
-                    this.settings.button = $(this.element).find("[data-action='facebook-login']")[0];
-                    $(this.settings.button).on("click", self.login);
+                    var btnLogin = $(this.element).find("[data-action='facebook-login']")[0],
+                        btnLogout = $(this.element).find("[data-action='facebook-logout']")[0];
+
+                    $(btnLogin).on("click", self.login);
+                    $(btnLogout).on("click", self.logout);
                 } else {
-                    // Removes the custom button if you already declare it.
+                    // Removes the custom buttons if you already declare it.
                     // This is because defaulButton has been set as TRUE, so
                     // you don't need two login buttons.
                     if ($(this.element).find("[data-action='facebook-login']")[0]) {
                         $(this.element).find("[data-action='facebook-login']")[0].remove();
                     }
 
-                    // Sets the default facebook login button.
-                    var container = $(this.element).find("[data-contains='facebook-button']")[0],
-                        btn = $("<div class='fb-login-button' data-auto-logout-link='true' data-size='"+ this.settings.button.size +"' data-scope='"+ this.settings.permissions +"' onlogin='"+ checkLoginState() +"'></div>");
-
-                        $(container).append(btn);
+                    if ($(this.element).find("[data-action='facebook-logout']")[0]) {
+                        $(this.element).find("[data-action='facebook-logout']")[0].remove();
+                    }
                 }
 
+                this.setFacebookSDK();
             },
 
             // Calls the <script> with the
@@ -70,6 +70,25 @@
                         xfbml   : true,
                         version : "v2.3"
                     });
+
+                    // The default Facebook Login Button
+                    // needs a callback whenever is it
+                    // click.
+
+                    // We assign it directly to the WINDOW object.
+                    if (self.settings.defaultButton) {
+                        window.checkLoginState = function () {
+                            FB.getLoginStatus(function(response) {
+                                statusChangeCallback(response);
+                            });
+                        }
+
+                        // Sets the default facebook login button.
+                        var container = $(self.element).find("[data-contains='facebook-buttons']")[0],
+                            btn = $("<div class='fb-login-button' data-auto-logout-link='true' data-size='"+ self.settings.button.size +"' data-scope='"+ self.settings.permissions +"' onlogin='checkLoginState()'></div>");
+
+                        $(container).append(btn);
+                    }
                 };
 
                 (function(d, s, id){
@@ -97,16 +116,7 @@
                         localStorage.removeItem("jLoggSessionToken");
                         localStorage.setItem("jLoggSessionToken", response.authResponse.accessToken);
 
-                        // Creates the logout button if using
-                        // your own custom btn.
-                        if (self.settings.defaultButton === false) {
-                            var btnLogout = $("<button type='button' id='btn-facebook-logout' data-action='facebook-logout' class='btn btn-primary'>Logout</button>");
-                            btnLogout.on("click", self.logout);
-                            if (!$(self.element).find("#btn-facebook-logout")[0]) {
-                                $(self.element).append(btnLogout);
-                            }
-                        }
-
+                        // Callback the onLogin function.
                         self.success(response);
                     }
                 }, {scope: self.settings.permissions});
@@ -118,10 +128,13 @@
 
             // This function is called when the logout
             // button is trigger.
-            logout : function () {
-                FB.logout(function(response) {
+            logout : function (e) {
+                e = event || window.event;
+                e.preventDefault();
+
+                FB.logout(function (response) {
                     localStorage.removeItem("jLoggSessionToken");
-                    self.settings.onLogout(response);
+                    self.settings.onLogout();
                 });
             },
 
@@ -138,20 +151,18 @@
         // trigger when a login status check
         // needs to be perform.
         function statusChangeCallback (response) {
-            // console.log(response);
+            // console.log(response.status);
             if (response.status === "connected") {
                 if (!localStorage.getItem("jLoggSessionToken")) {
                     self.success();
                 }
             } else if (response.status === "not_authorized") {
                 console.error("You are not logged into the app, please login to continue!");
+            } else if (response.status === "unknown") {
+                if (self.settings.defaultButton) {
+                    self.settings.onLogout();
+                }
             }
-        }
-
-        function checkLoginState () {
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
         }
 
         $.fn[ pluginName ] = function ( options ) {

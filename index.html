@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <title>jLogg ~ A Simple Facebook Login Tool</title>
-<meta name="description" content="A simple jQuery Plugin that allow you to log-in into your web app using the Facebook Javascript SDK.">
+<meta name="description" content="A simple jQuery Plugin that allow you to login into your web app using the Facebook Javascript SDK.">
 <meta name="author" content="daniielev">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Styles -->
@@ -33,12 +33,11 @@
 <header class="masthead">
     <div class="container">
     <a href="#" id="brand">jLogg</a>
-    <h1 class="font-bree-serif">jLogg</h1>
-    <p class="font-open-sans-normal">A simple jQuery Plugin that allow you to log-in into your web app using the Facebook Javascript SDK.</p>
+    <h1 class="font-bree-serif">A simple Facebook Login Tool</h1>
+    <p class="font-open-sans-normal">A simple jQuery Plugin that allow you to login into your web app using the Facebook Javascript SDK.</p>
 
-    <p class="jumbo"> <a href="#" class="btn btn-inverse btn-large font-open-sans-normal"><strong>View Plugin on GitHub</strong></a> <a href="#" class="btn btn-success btn-large font-open-sans-normal"><strong>Download Plugin</strong><small> (v1.0.0)</small></a> </p>
+    <p class="jumbo"> <a href="https://github.com/daniielev/jLogg" class="btn btn-inverse btn-large font-open-sans-normal"><strong>View Plugin on GitHub</strong></a> <a href="https://github.com/daniielev/jLogg/archive/master.zip" class="btn btn-success btn-large font-open-sans-normal"><strong>Download Plugin</strong><small> (v1.0.0)</small></a> </p>
 
-    <p class="share"> <a href="https://twitter.com/intent/tweet?screen_name=daniielev" class="twitter-mention-button" data-related="daniielev">Tweet to @daniielev</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
       <a href="https://twitter.com/share" class="twitter-share-button" data-via="daniielev">Tweet</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -55,8 +54,6 @@
           <li><a href="#examples">Examples</a></li>
           <li><a href="#howtouse">How To Use</a></li>
           <li><a href="#documentation">Documentation</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#roadmap">Roadmap and changelog</a></li>
         </ul>
         <div class="tab-content">
         <!--
@@ -65,7 +62,7 @@
           =====================================
           -->
           <div class="tab-pane active" id="overview">
-            <h1 class="font-bree-serif align-center">Designed for web developers</h1>
+            <h2 class="font-bree-serif align-center">Designed for web developers</h2>
             <h4 class="align-center font-open-sans-normal-italic">Need reasons to use this plugin? Check the features below.</h4>
             <div class="row features">
               <div class="span4">
@@ -87,13 +84,15 @@
             <!--end row-->
             <hr class="soften"/>
             <h1 class="font-bree-serif align-center">Team</h1>
-            <h4 class="align-center font-open-sans-normal-italic">Made by Daniel Muñoz</h4>
-            <ul class="thumbnails">
-              <li class="span3"> <a href="#" class="thumbnail"> <img src="" alt=""> </a> </li>
-              <li class="span3"> <a href="#" class="thumbnail"> <img src="" alt=""> </a> </li>
-              <li class="span3"> <a href="#" class="thumbnail"> <img src="" alt=""> </a> </li>
-              <li class="span3"> <a href="#" class="thumbnail"> <img src="" alt=""> </a> </li>
-            </ul>
+            <h4 class="align-center font-open-sans-normal">Made by Daniel Muñoz</h4>
+            <h6 class="align-center font-open-sans-normal-italic"><small>Technologies used for the project:</small></h6>
+            <div class="row">
+              <ul class="thumbnails techs">
+                <li class="span4"> <a href="#" class="thumbnail"> <img width="250" height="168" src="assets/img/html5logo.png" alt="HTML5"> </a> </li>
+                <li class="span4"> <a href="#" class="thumbnail"> <img width="250" height="168" src="assets/img/jquerylogo.jpg" alt="jQuery"> </a> </li>
+                <li class="span4"> <a href="#" class="thumbnail"> <img width="250" height="168" src="assets/img/facebooklogo.png" alt="Facebook Javascript SDK"> </a> </li>
+              </ul>
+            </div>
             <!--end thumbnails-->
           </div>
           <!--end overview-content-->
@@ -104,14 +103,15 @@
           -->
           <div class="tab-pane" id="examples">
           <h2 class="font-bree-serif">Usage</h2>
-            <p>We show you how simple it is to use jLogg in your web applications. Here are some examples.</p>
+            <h2>Basic Demonstration</h2>
+            <p>Try login with your Facebook credentials and see what happens</p>
             <div class="row">
-             <div class="span6">
+             <div class="span12">
                 <form id="form-login" class="form-horizontal">
                     <fieldset>
                     <legend>Login</legend>
                     <div class="form-group">
-                      <label class="col-md-4 control-label" for="username">Username</label>
+                      <label class="control-label" for="username">Username</label>
                       <input id="username" name="username" type="text" class="form-control input-md" required>
                     </div>
                     <div class="form-group">
@@ -120,9 +120,10 @@
                     </div>
                     <div class="form-group">
                       <label class="col-md-4 control-label" for="btnlogin"></label>
-                        <button id="btn-login" class="btn btn-primary">Sign in</button>
-                        <button id="btn-facebook" data-action="facebook-login" class="btn btn-primary">Sign in with Facebook</button>
-                        <div data-contains="facebook-button"></div>
+                        <button type="button" id="btn-login" class="btn btn-primary">Sign in</button>
+                        <button type="button" id="btn-facebook-login" data-action="facebook-login" class="btn btn-primary">Sign in with Facebook</button>
+                        <button type="button" id="btn-facebook-logout" data-action="facebook-logout" class="btn btn-primary hidden">Logout</button>
+                        <div data-contains="facebook-buttons"></div>
                     </div>
                     </fieldset>
                   </form>
@@ -134,44 +135,6 @@
                       </div>
                     </div>
                   </div>
-              </div>
-              <!--end span6-->
-              <div class="span6">
-                <section class="sec-header">
-                <h3 class="font-bree-serif">The Markup</h3>
-                <p>Define you form container</p>
-<pre class="prettyprint linenums">
-&lt;form id="form-login" class="form-horizontal"&gt;
-</pre>
-<p>Define your custom login button</p>
-<pre class="prettyprint linenums">
-&lt;button id="btn-facebook" class="btn btn-primary" data-action="facebook-login"&gt;Sign in with Facebook&lt;/button&gt;
-</pre>
-            </section>
-            <section class="sec-header">
-            <h3 class="font-bree-serif">JavaScript</h3>
-            <p>Initialize the plugin.</p>
-<pre class="prettyprint linenums">
-$("#btn-facebook").jLogg();
-</pre>
-              </section>
-              <section class="sec-header">
-            <p>Define the options</p>
-<pre class="prettyprint linenums">
-$("#form-login").jLogg({
-    appId         : "1046016745413247",
-    defaultButton : false,
-    onLogin       : function (api) {
-        // console.log(api);
-        alert("Welcome, " + api.first_name + ".");
-    },
-    onLogout      : function (response) {
-        // console.log(response);
-        alert("Come back soon, " + api.first_name + ".");
-    }
-});
-</pre>
-              </section>
               </div><!--end span6-->
             </div><!--end row-->
           </div><!--end examples-content-->
@@ -181,27 +144,29 @@ $("#form-login").jLogg({
           =====================================
           -->
           <div class="tab-pane" id="howtouse">
-                        <section class="sec-header">
-                <h3 class="font-bree-serif">Link Css</h3>
-                <p>Move the <strong>plugin CSS</strong> file to your server and link to it in the <code><abbr title="<head>">head</abbr></code> section of your document.</p>
-                <pre class="prettyprint linenums">&lt;link rel="stylesheet" href="yourplugin.css" /&gt;</pre>
-            </section>
             <section class="sec-header">
                 <h3 class="font-bree-serif">Link JS</h3>
-                <p>Move the <strong>plugin JS</strong> file to your server and link to it before the closing <code><abbr title="<body>">body</abbr></code> tag.</p>
-                <p>Please note that you must include jQuery (v1.7 or later) before the slider JS file.</p>
+                <p>Move the <strong>dist/jlogg.min.js</strong> file to your server and link to it before the closing <code><abbr title="<body>">body</abbr></code> tag.</p>
+                <p>Please note that you must include jQuery before the jLogg JS file.</p>
                 <pre class="prettyprint linenums">
-&lt;script src="jquery-1.7.1.min.js"&gt;&lt;/script&gt;
-&lt;script src="jquery.yourplugin.min.js"&gt;&lt;/script&gt;
+&lt;script src="//code.jquery.com/jquery-1.11.2.min.js"&gt;&lt;/script&gt;
+&lt;script src="dist/jLogg.min.js"&gt;&lt;/script&gt;
 </pre>
             </section>
             <section class="sec-header">
                 <h3 class="font-bree-serif">The Markup</h3>
-                <p>Add the following markup</p>
-                <pre class="prettyprint linenums">&lt;ul class="thumbnails"&gt;
-&lt;li class="span4"&gt; &lt;a href="#" class="thumbnail"&gt; &lt;img src="" alt=""&gt; &lt;/a&gt; &lt;/li&gt;
+                <p>You need to define 3 elements:</p>
+                <ul>
+                  <li>The main container, where your custom buttons live.</li>
+                  <li>The custom facebook login and logout buttons, using <strong>HTML5 data-action</strong> attributes. I'll show you how...</li>
+                </ul>
+                <pre class="prettyprint linenums">
+&lt;form id="login"&gt;
 ....
-&lt;/ul&gt;
+&lt;button class="jlogg-custom-btn" data-action="facebook-login"&gt;Login using Facebook&lt;/button&gt;
+&lt;button class="jlogg-custom-btn" data-action="facebook-logout"&gt;Logout&lt;/button&gt;
+....
+&lt;/form&gt;
 </pre>
 </section>
 <section class="sec-header">
@@ -210,10 +175,11 @@ $("#form-login").jLogg({
                 <pre class="prettyprint linenums">
 &lt;script&gt;
 $(document).ready(function () {
-    $('.selector').yourPlugin();
+    $("form#login").jLogg();
 });
 &lt;/script&gt;
 </pre>
+<p><strong>Note</strong> that the js code below will only initilize the plugin. It will not run until you send it some options. See <a href="#documentation">documentation</a>.</p>
 </section>
           </div><!--end howtouse-content-->
           <!--
@@ -235,269 +201,75 @@ $(document).ready(function () {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Property1</td>
-                        <td>Default Value</td>
-                        <td>some description about this</td>
+                        <td>appId</td>
+                        <td>String: <code>""</code></td>
+                        <td>You must enter you Facebook Application ID here. When you register your app, Facebook will generate an unique code for your app. You can set up your Facebook app from here <a href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a>.</td>
                     </tr>
                     <tr>
-                        <td>Property2</td>
-                        <td>"Default String"</td>
-                        <td>some description about this</td>
+                        <td>defaultButton</td>
+                        <td>Boolean: <code>false</code></td>
+                        <td>
+                          <p><strong>Optional</strong></p>
+                          <p>As <code>false</code>, then jLogg will go through your container element and look for 2 elements:</p>
+                          <ol>
+                            <li>Your custom facebook login button, which is set as the elemen using <code>data-action="facebook-login"</code>.</li>
+                            <li>And your own facebook logout button, using <code>data-action="facebook-logout"</code>.</li>
+                          </ol>
+                          <p>But if you set this option as <code>true</code>, then you don't need to create custom login and logout functions. jLogg will load the <a href="https://developers.facebook.com/docs/plugins/login-button">Facebook Login Button</a> and set it up for you.</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Property3</td>
-                        <td>false</td>
-                        <td>some description about this</td>
+                        <td>buttons</td>
+                        <td>Object: <code>{}</code></td>
+                        <td>
+                          <p><strong>Optional</strong></p>
+                          <p>This property contains some other properties in an object object, which are used to customize the Facebook Login Button when you set the <code>defaultButton</code> to <code>true</code>.</p>
+                          <p>Right now, it only takes one property: the size of the button. Some possible values are <i>small</i>, <i>medium</i>, <i>large</i>, <i>xlarge</i>. Here's the default object:</p>
+                          <pre class="prettyprint linenums">
+button : {
+            size : "medium"
+}</pre>
+                          <p>The features coming up as based on the Facebook Login Button reference, see <a href="https://developers.facebook.com/docs/plugins/login-button">https://developers.facebook.com/docs/plugins/login-button</a>.</p>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Property4</td>
-                        <td>Default Value</td>
-                        <td>some description about this</td>
+                        <td>permissions</td>
+                        <td>String: <code>"public_profile, email"</code></td>
+                        <td>Facebook uses these permissions (comma separated) for the scope of the <code>FB</code> object whenever you required the API, which is fill when you get the response from the Facebook SDK. Check what you can required from a logged in user on <a href="https://developers.facebook.com/docs/facebook-login/permissions/v2.3#reference">https://developers.facebook.com/docs/facebook-login/permissions/v2.3#reference</a>.</td>
                     </tr>
                     <tr>
-                        <td>Property5</td>
-                        <td>"Default String"</td>
-                        <td>some description about this</td>
+                        <td>onLogin</td>
+                        <td>Type: <code>function</code></td>
+                        <td>
+                          <p>When the user has enter his Facebook credentials and completed the login process, <code>onLogin</code> function will be called. Here you have access now to the <code>api</code>, which is a <code>JSON</code> with all the properties you requested from the user using the <code>permissions</code> option.</p>
+                          <p>Eg:</p>
+                          <pre class="prettyprint linenums">onLogin : function (api) {
+  // console.log(api)
+  alert("Welcome, " + api.name + "!");
+}
+                          </pre>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Property6</td>
-                        <td>false</td>
-                        <td>some description about this</td>
+                        <td>onLogout</td>
+                        <td>Type: <code>function</code></td>
+                        <td>
+                          <p>As the <code>onLogout</code> function, this is a callback. In this case, <code>onLogout</code> function will be executed when an already logged in user request to the <code>FB</code> object the <code>logout</code> method. Once the <code>response.status</code> is equal to <i>unknow</i>, the user has been successfuly logged out from your app.</p>
+                          <p>It takes no arguments because when the function is called, the connection has been already closed.</p>
+                          <p>Eg:</p>
+                          <pre class="prettyprint linenums">onLogout : function () {
+  // Redirect to your app login page
+  window.location = "/login";
+}</pre>
+                        </td>
                     </tr>
                 </tbody>
                 </table>
-
+                <h2>TODO:</h2>
+                <p>This project is still in <strong>beta</strong> and should not be used in production enviroments. Keep in mind that should first read the Facebook Javascript Documentation in order to know about how Facebook handles the SDK and how you can query many more options.</p>
+                <p>If you have any question, comment or new ideas you can <a href="mailto:munnozdaniel@gmail.com">contact me by email</a> or make a pull request in the <a href="https://github.com/daniielev/jLogg">jLogg Gitbub Repository</a>.</p>
            </section>
           </div><!--end documentation-content-->
-          <!--
-          =====================================
-          FAQ Tab Content
-          =====================================
-          -->
-          <div class="tab-pane" id="faq">
-          <section class="sec-header">
-              <h3 class="font-bree-serif">FAQ <small>Option1</small></h3>
-              <div class="row">
-              <div class="span3">
-              <div class="well">
-                <ul class="nav nav-pills nav-stacked">
-                  <li class="active"><a href="#">Category 1</a></li>
-                  <li><a href="#">Category 2</a></li>
-                  <li><a href="#">Category 3</a></li>
-                  <li><a href="#">Category 4</a></li>
-                  <li><a href="#">Category 5</a></li>
-                </ul>
-                </div><!--end well-->
-              </div><!--end span3-->
-              <div class="span9">
-              <form class="well form-search">
-              <input type="text" class="span7" style="margin: 0 auto;" data-provide="typeahead" data-items="4" data-source="[&quot;keyword1&quot;,&quot;keyword2&quot;]">
-              <button type="submit" class="btn btn-success">Search</button>
-              </form>
-                  <div class="accordion" id="faq-accordion">
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                          Question #1
-                        </a>
-                      </div>
-                      <div id="collapseOne" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                          Question Item #2
-                        </a>
-                      </div>
-                      <div id="collapseTwo" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-                          Question Item #3
-                        </a>
-                      </div>
-                      <div id="collapseThree" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                      </div>
-                    </div>
-                  </div><!--end accordion-->
-              </div><!--end span9-->
-              </div><!--end row-->
-            </section>
-
-              <section class="sec-header">
-              <h3 class="font-bree-serif">FAQ <small>Option2</small></h3>
-                  <div class="accordion" id="faq-accordion1">
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse1">
-                          Question #1
-                        </a>
-                      </div>
-                      <div id="collapse1" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse2">
-                          Question Item #2
-                        </a>
-                      </div>
-                      <div id="collapse2" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse3">
-                          Question Item #3
-                        </a>
-                      </div>
-                      <div id="collapse3" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                      </div>
-                    </div>
-                  </div><!--end accordion-->
-            </section>
-          </div><!--end faq-content-->
-           <!--
-          =====================================
-          Roadmap and changelog Tab Content
-          =====================================
-          -->
-          <div class="tab-pane" id="roadmap">
-            <section class="sec-header">
-              <h3 class="font-bree-serif">Roadmap</h3>
-              <p>For more up-to-date information on release dates for these versions, please refer to the <a href="#" class="tip" title="Link to your Github Account">Issues Milestones</a>.</p>
-              <table class="table table-bordered">
-                  <thead>
-                      <tr>
-                          <th><strong>Version</strong></th>
-                          <th><strong>Description</strong></th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                      <td>1.0.3</td>
-                      <td>Description about this version goes here</td>
-                  </tr>
-                  <tr>
-                      <td>1.0.2</td>
-                      <td>Description about this version goes here</td>
-                  </tr>
-                  <tr>
-                      <td>1.0.1</td>
-                      <td>Description about this version goes here</td>
-                  </tr>
-                  <tr>
-                      <td>1.0.0</td>
-                      <td>Description about this version goes here</td>
-                  </tr>
-
-                  </tbody>
-              </table>
-            </section>
-
-            <section class="sec-header">
-              <h3 class="font-bree-serif">Changelog</h3>
-              <div class="accordion" id="changelog-accordion">
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseaa">
-                          <strong>1.0.3 (June 1, 2012)</strong>
-                        </a>
-                      </div>
-                      <div id="collapseaa" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-                           <h5>CSS Changes</h5>
-                              <ul>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                              </ul>
-                              <h5>Javascript Changes</h5>
-                              <ul>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                              </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseab">
-                          <strong>1.0.2 (April 1, 2012)</strong>
-                        </a>
-                      </div>
-                      <div id="collapseab" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                           <h5>HTML Changes</h5>
-                              <ul>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                              </ul>
-                              <h5>Javascript Changes</h5>
-                              <ul>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                              </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="accordion-group">
-                      <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseac">
-                          <strong>1.0.1 (March 1, 2012)</strong>
-                        </a>
-                      </div>
-                      <div id="collapseac" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                           <h5>HTML Changes</h5>
-                              <ul>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                              </ul>
-                              <h5>Javascript Changes</h5>
-                              <ul>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                                  <li>Some description about the changes</li>
-                              </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div><!--end accordion-->
-            </section>
-          </div><!--end roadmap-content-->
-          </div><!--end tab-content-->
       </div><!--end tabbable-->
     </div><!--end span12-->
   </div><!--end row-->
@@ -519,7 +291,7 @@ $(document).ready(function () {
 <script src="assets/js/jquery.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/google-code-prettify/prettify.js"></script>
-<script src="src/jLogg.js"></script>
-<script src="js/main.js"></script>
+<script src="dist/jLogg.min.js"></script>
+<script src="dist/main.min.js"></script>
 </body>
 </html>
