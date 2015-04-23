@@ -81,7 +81,7 @@
                             FB.getLoginStatus(function(response) {
                                 statusChangeCallback(response);
                             });
-                        }
+                        };
 
                         // Sets the default facebook login button.
                         var container = $(self.element).find("[data-contains='facebook-buttons']")[0],
@@ -133,6 +133,7 @@
                 e.preventDefault();
 
                 FB.logout(function (response) {
+                    // console.log(response);
                     localStorage.removeItem("jLoggSessionToken");
                     self.settings.onLogout();
                 });

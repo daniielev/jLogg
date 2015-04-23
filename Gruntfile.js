@@ -7,20 +7,16 @@ module.exports = function(grunt) {
 
 		// Banner definitions
 		meta: {
-			banner: "/*\n" +
-				" *  <%= pkg.title || pkg.name %> - v<%= pkg.version %>\n" +
+			banner: "/*! \n" +
+				" *  <%= pkg.title || pkg.name %> - v<%= pkg.version %> (<%= pkg.status %>)\n" +
 				" *  <%= pkg.description %>\n" +
 				" *  <%= pkg.homepage %>\n" +
+				" *  Please, send us your feedback on <%= pkg.bugs.url %>\n" +
 				" *\n" +
-				" *  Made by <%= pkg.author.name %>\n" +
+				" *  by <%= pkg.author.name %>\n" +
+				" *  <%= pkg.author.email %>\n" +
 				" *  Under <%= pkg.license %> License\n" +
-				" */\n",
-			banner_2 : "/*\n" +
-				" *  <%= pkg.name %>\n" +
-				" *  All the logic for the page goes here\n" +
-				" *\n" +
-				" *  Made by <%= pkg.author.name %>\n" +
-				" *  Under <%= pkg.license %> License\n" +
+				" *  This file was generated on: <%= grunt.template.today('dddd, mmmm dS, yyyy, h:MM:ss TT') %> \n" +
 				" */\n"
 		},
 
@@ -29,15 +25,23 @@ module.exports = function(grunt) {
 			options: {
 				banner: "<%= meta.banner %>"
 			},
-			dist: {
-				src: ["src/jLogg.js"],
-				dest: "js/jLogg.js"
+			jLogg_js : {
+				dist: {
+					src: ["src/jLogg.js"],
+					dest: "dist/jLogg.js"
+				}
+			},
+			main_js : {
+				dist: {
+					src: ["src/main.js"],
+					dest: "dist/main.js"
+				}
 			}
 		},
 
 		// Lint definitions
 		jshint: {
-			files: ["src/jLogg.js"],
+			files: ["src/jLogg.js", "src/main.js"],
 			options: {
 				jshintrc: ".jshintrc"
 			}
@@ -45,29 +49,24 @@ module.exports = function(grunt) {
 
 		// Minify definitions
 		uglify: {
-			my_target: {
-				src: ["js/jLogg.js"],
-				dest: "js/jLogg.min.js",
+			options: {
+		      	banner: "/*! \n" +
+		      		" *  <%= pkg.title || pkg.name %> - v<%= pkg.version %> (<%= pkg.status %>)\n" +
+			      	" *  <%= pkg.author.name %> ~ <%= pkg.author.url %>*\n" +
+			        " *  This file was generated on: <%= grunt.template.today('dddd, mmmm dS, yyyy, h:MM:ss TT') %>\n" +
+		        	" */\n"
+		    },
+			min_jLogg: {
+				src: ["src/jLogg.js"],
+				dest: "dist/jLogg.min.js",
 				options: {
 					banner: "<%= meta.banner %>"
 				}
 			},
-			my_target_2: {
-				src: ["js/main.js"],
-				dest: "js/main.min.js",
-				options: {
-					banner: "<%= meta.banner_2 %>"
-				}
+			min_main: {
+				src: ["src/main.js"],
+				dest: "dist/main.min.js"
 			},
-		},
-
-		// CoffeeScript compilation
-		coffee: {
-			compile: {
-				files: {
-					"js/jLogg.js": "src/jLogg.coffee"
-				}
-			}
 		},
 
 		// watch for changes to source
@@ -75,42 +74,14 @@ module.exports = function(grunt) {
 		// (call 'grunt watch')
 		watch: {
 		    files: ['src/*'],
-		    tasks: ['default'],
-		    css: {
-				files: 'src/scss/*.scss',
-				tasks: ['sass']
-			},
-			options: {
-				livereload: true
-			}
-		},
-
-		sass: {
-			dist: {
-				options: {
-	                style: 'compressed'
-	            },
-				files: {
-					"css/style.min.css" : "src/scss/style.scss"
-				}
-			}
-		},
-
-		// serve: {
-	 //        options: {
-	 //            port: 9000
-	 //        }
-	 //    }
-
+		    tasks: ['default']
+		}
 	});
 
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.loadNpmTasks("grunt-contrib-coffee");
 	grunt.loadNpmTasks("grunt-contrib-watch");
-	grunt.loadNpmTasks("grunt-contrib-sass");
-	// grunt.loadNpmTasks("grunt-serve");
 
 	grunt.registerTask("build", ["concat", "uglify"]);
 	grunt.registerTask("default", ["jshint", "build", "watch"]);

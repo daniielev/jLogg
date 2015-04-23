@@ -8,13 +8,13 @@ $(function(){
     window.prettyPrint && prettyPrint();
 
     //Tab function
-    $('#pluginTab a').click(function (e) {
+    $("#pluginTab a").click(function (e) {
         e.preventDefault();
-        $(this).tab('show');
+        $(this).tab("show");
     });
 
     //FAQ autosuggest
-    $('.typeahead').typeahead();
+    $(".typeahead").typeahead();
 
     //tooltip init
     $("a.tip").tooltip();
@@ -23,13 +23,13 @@ $(function(){
     gotoTop();
     function gotoTop(){
         // scroll body to 0px on click
-        $('a#top').on('click',function () {
-            $('body,html').animate({
+        $("a#top").on("click",function () {
+            $("body,html").animate({
                 scrollTop: 0
             }, 800);
             return false;
         });
-     };
+     }
 
     // Facebook SDK Functions
     var btnFBLogin = $("#btn-facebook-login"),
